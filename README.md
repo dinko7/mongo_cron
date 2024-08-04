@@ -4,11 +4,13 @@ A MongoDB-based cron job scheduler for Dart.
 
 ## Features
 
-- Schedule jobs using cron syntax
+- Schedule jobs using cron syntax (use [Cronitor](https://crontab.guru/) if you're not familiar with cron syntax)
 - Persist jobs in MongoDB
 - Callbacks for various cron events (start, stop, idle, error)
 
 ## Usage
+
+Take a look at the [example](example) for a complete example.
 
 ```dart
 import 'package:mongo_cron/mongo_cron.dart';
