@@ -1,16 +1,3 @@
-# MongoCron
-
-A MongoDB-based cron job scheduler for Dart.
-
-## Features
-
-- Schedule jobs using cron syntax
-- Persist jobs in MongoDB
-- Callbacks for various cron events (start, stop, idle, error)
-
-## Usage
-
-```dart
 import 'package:mongo_cron/mongo_cron.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -78,4 +65,3 @@ void main() async {
   await mongoCron.stop();
   await db.close();
 }
-```
