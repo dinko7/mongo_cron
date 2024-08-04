@@ -1,6 +1,8 @@
 name: mongo_cron
-description: A starting point for Dart libraries or applications.
+description: Use MongoDB collection as a job queue for cron jobs.
 version: 1.0.0
+repository: https://github.com/dinko7/mongo_cron
+homepage: https://github.com/dinko7/mongo_cron
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
