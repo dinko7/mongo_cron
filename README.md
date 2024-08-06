@@ -8,9 +8,17 @@ A MongoDB-based cron job scheduler for Dart.
 - Persist jobs in MongoDB
 - Callbacks for various cron events (start, stop, idle, error)
 
+## Processing speed
+Processing speed can be reduced when more and more documents are added into the collection. We can maintain the speed by creating the following indexes:
+
+```dart
+await _collection.createIndex(key: 'name', unique: true);
+await _collection.createIndex(keys: {'sleepUntil': 1, 'name': 1});
+```
+
 ## Usage
 
-Take a look at the [example](example) for a complete example.
+Take a look at the [example](https://github.com/dinko7/mongo_cron/tree/master/example) for a complete example.
 
 ```dart
 import 'package:mongo_cron/mongo_cron.dart';
