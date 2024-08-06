@@ -107,7 +107,7 @@ class MongoCron {
 
     final result = await _collection.findAndModify(
       query: {
-        'sleepUntil': {'\$exists': true, '\$ne': null, '\$lte': now},
+        'sleepUntil': {'\$exists': true, '\$lte': now},
       },
       update: {
         '\$set': {'sleepUntil': lockUntil}
@@ -130,7 +130,8 @@ class MongoCron {
   }
 
   Future<void> _reschedule(Job job) async {
-    final nextRun = _getNextRun(job);
+    final now = DateTime.now();
+    final nextRun = _getNextRun(job, now);
 
     if (nextRun == null && job.autoRemove) {
       await _collection.deleteOne({'_id': job.id});
@@ -152,15 +153,14 @@ class MongoCron {
     }
   }
 
-  DateTime? _getNextRun(Job job) {
+  DateTime? _getNextRun(Job job, DateTime fromTime) {
     try {
       final schedule = UnixCronParser().parse(job.cronExpression);
-      final now = DateTime.now();
-      final next = schedule.next().time;
+      final next = schedule.next(fromTime).time;
       if (job.repeatUntil != null && next.isAfter(job.repeatUntil!)) {
         return null;
       }
-      return next.isAfter(now) ? next : now;
+      return next;
     } catch (e) {
       print('Invalid cron expression: ${job.cronExpression}');
       return null;
