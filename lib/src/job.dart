@@ -43,4 +43,24 @@ class Job {
       data: Map<String, dynamic>.from(map['data'] as Map),
     );
   }
+
+  Job copyWith({
+    ObjectId? id,
+    String? name,
+    String? cronExpression,
+    DateTime? sleepUntil,
+    DateTime? repeatUntil,
+    bool? autoRemove,
+    Map<String, dynamic>? data,
+  }) {
+    return Job(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      cronExpression: cronExpression ?? this.cronExpression,
+      sleepUntil: sleepUntil ?? this.sleepUntil,
+      repeatUntil: repeatUntil ?? this.repeatUntil,
+      autoRemove: autoRemove ?? this.autoRemove,
+      data: data ?? Map.from(this.data),
+    );
+  }
 }

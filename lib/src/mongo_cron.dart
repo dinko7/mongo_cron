@@ -29,6 +29,7 @@ class MongoCron {
     bool autoRemove = false,
     Map<String, dynamic>? jobData,
   }) async {
+    final existingJobDoc = await _collection.findOne({'name': name});
     final job = Job(
       name: name,
       cronExpression: cronExpression,
@@ -37,9 +38,18 @@ class MongoCron {
       data: jobData ?? {},
     );
 
-    _handlers[job.name] = handler;
+    if (existingJobDoc != null) {
+      final existingJob = Job.fromMap(existingJobDoc);
 
-    await _collection.insertOne(job.toMap());
+      await _collection.replaceOne(
+        {'_id': existingJob.id},
+        job.copyWith(id: existingJob.id).toMap(),
+      );
+    } else {
+      await _collection.insertOne(job.toMap());
+    }
+
+    _handlers[job.name] = handler;
     return job;
   }
 
